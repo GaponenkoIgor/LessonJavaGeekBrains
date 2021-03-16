@@ -2,20 +2,19 @@ package com.company.homework6;
 
 public class Cat extends Animal {
 
-    public Cat(String name) {
-        this.name = name;
-
+    public Cat(String name,int swim, int run) {
+        super(name,swim,run);
     }
-
-    public void catInfo() {
-        System.out.println("Кот имя: " + name);
-    }
-    @Override
-        public void run() {
-            System.out.println(name + " пробежал 200 м.");
+   @Override
+        public void runPossibleLength() {
+            if (run <= 200) {
+                System.out.println("Кот " + name + " пробежал " + run + "м.");
+            } else {
+                System.out.println(name + "не сможет пробежать!");
+            }
         }
     @Override
-    public void swim(){
+    public void swimPossibleLength(){
         System.out.println(name + " не умеет плавать!");
     }
 

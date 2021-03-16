@@ -1,23 +1,26 @@
 package com.company.homework6;
 
 public class Dog extends Animal {
-
-    public Dog(String name) {
-        this.name = name;
-
+    public Dog(String name,int swim, int run) {
+        super(name,swim,run);
     }
 
-    public void dogInfo() {
-        System.out.println(" Собака имя: " + name);
-    }
-        @Override
-       public void run() {
-            System.out.println(name + " пробежал 500 м.");
-        }
     @Override
-    public void swim() {
-        System.out.println(name + " проплыл 10 м.");
+    public void runPossibleLength() {
+        if (run <= 500) {
+            System.out.println("Пёс " + name + " пробежал " + run + "м.");
+        } else {
+            System.out.println(name + " не сможет пробежать!");
+        }
     }
 
+    @Override
+    public void swimPossibleLength() {
+        if (swim <= 10) {
+            System.out.println("Пёс " + name + " проплыл " + swim + "м.");
+        } else {
+            System.out.println(name + " не сможет проплыть!");
+        }
+    }
 
 }

@@ -22,5 +22,4 @@ public class Dog extends Animal {
             System.out.println(name + " не сможет проплыть!");
         }
     }
-
 }

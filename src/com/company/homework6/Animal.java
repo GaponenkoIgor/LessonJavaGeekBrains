@@ -5,7 +5,6 @@ public abstract class Animal {
      protected final int swim;
      protected final int run;
 
-
     public Animal(String name, int swim, int run){
           this.name = name;
           this.swim = swim;

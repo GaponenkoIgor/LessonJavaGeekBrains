@@ -17,6 +17,4 @@ public class Cat extends Animal {
     public void swimPossibleLength(){
         System.out.println(name + " не умеет плавать!");
     }
-
-
 }

@@ -4,9 +4,9 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Server extends Thread {
+public class EchoServer extends Thread {
     public static void main(String[] args){
-        try (ServerSocket server= new ServerSocket(8191)) {
+        try (ServerSocket server= new ServerSocket(8187)) {
             Socket client = server.accept();
             System.out.println("Подключение состоялось. ");
 

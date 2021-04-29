@@ -1,5 +1,4 @@
-package com.company.level2.homework7.chat;
-
+package com.company.level2.homework7and8.chat;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -40,16 +39,37 @@ public class MyServer {
 
     public synchronized void unsubscribe(ClientHandler clientHandler) {
         clients.remove(clientHandler);
+        broadcastClientList();
     }
 
     public synchronized  void subscribe(ClientHandler clientHandler) {
         clients.add(clientHandler);
+        broadcastClientList();
     }
 
     public synchronized void broadcastMsg(String msg) {
         for (ClientHandler clientHandler : clients) {
             clientHandler.sendMsg(msg);
         }
+    }
+
+    public synchronized void sendMsgToClient(ClientHandler fromClient, String nickTo, String msg) {
+        for (ClientHandler client : clients) {
+            if (client.getName().equals(nickTo)) {
+                client.sendMsg("от пользователя " + fromClient.getName() + ": " + msg);
+                fromClient.sendMsg("клиенту " + nickTo + ": " + msg);
+                return;
+            }
+        }
+        fromClient.sendMsg("Участник с ником \"" + nickTo + "\" не найден");
+    }
+
+    public synchronized void broadcastClientList() {
+        StringBuilder sb = new StringBuilder("/clients");
+        for (ClientHandler client : clients) {
+            sb.append(" ").append(client.getName());
+        }
+        broadcastMsg(sb.toString());
     }
 
     public synchronized boolean isNickBusy(String nick) {

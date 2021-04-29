@@ -1,4 +1,4 @@
-package com.company.level2.homework7.chat;
+package com.company.level2.homework7and8.chat;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.net.Socket;
 
 public class ClientHandler {
+    private Long lastMsgTime;
     private MyServer server;
     private Socket socket;
     private DataInputStream in;
@@ -56,6 +57,15 @@ public class ClientHandler {
                         sendMsg("Учетная запись уже используется");
                     }
                 } else {
+                    if (!server.isNickBusy(nick)) {
+                        sendMsg("/authok " + nick);
+                        name = "Инкогнито";
+                        server.broadcastMsg(name + " зашел в чат");
+                        server.subscribe(this);
+                        return;
+                    } else {
+                        sendMsg("Учетная запись уже используется");
+                    }
                     sendMsg("Неверные логин/пароль");
                 }
             } else {
@@ -73,11 +83,28 @@ public class ClientHandler {
     }
 
     public void readMsg() throws IOException {
-        while (true) {
+        while (socket.isConnected()) {
             String strFromClient = in.readUTF();
+
+            if (lastMsgTime != null && System.currentTimeMillis() - lastMsgTime < 10000){
+                server.sendMsgToClient(this, getName(), "Незарегистрированным пользователям нельзя отправлять сообщение чаще, чем раз в 10 секунд");
+                continue;
+            }
+            lastMsgTime = System.currentTimeMillis();
+
             System.out.println("от " + name + ": " + strFromClient);
-            if (strFromClient.equals("/end")) {
-                return;
+            if (strFromClient.startsWith("/")) {
+                if (strFromClient.equals("/end")) {
+                    return;
+                }
+                //   /w nickTo msg...
+                if (strFromClient.startsWith("/w ")) {
+                    String[] parts = strFromClient.split(" ");
+                    String nickTo = parts[1];
+                    String msg = strFromClient.substring(3 + nickTo.length() + 1);
+                    server.sendMsgToClient(this, nickTo, msg);
+                }
+                continue;
             }
             server.broadcastMsg(name + ": " + strFromClient);
         }

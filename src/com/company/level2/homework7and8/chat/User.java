@@ -1,4 +1,4 @@
-package com.company.level2.homework7.chat;
+package com.company.level2.homework7and8.chat;
 
 public class User {
     private final String login;

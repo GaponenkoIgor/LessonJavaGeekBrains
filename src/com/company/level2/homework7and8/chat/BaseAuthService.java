@@ -1,4 +1,4 @@
-package com.company.level2.homework7.chat;
+package com.company.level2.homework7and8.chat;
 
 import java.util.HashMap;
 import java.util.Map;

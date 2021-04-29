@@ -1,4 +1,4 @@
-package com.company.level2.homework7;
+package com.company.level2.homework7and8;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
